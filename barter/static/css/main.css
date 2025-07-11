@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    background: #464345;
+}
+
+.centered-div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.centered-div h1 {
+    color: #F0EAD6;
+    font-size: 3rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.centered-div p {
+    color: #838996;
+    font-size: 1.2rem;
+}

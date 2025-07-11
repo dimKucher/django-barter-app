@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load cache %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+{% include 'navbar/navbar.html' %}
+
+<div class="centered-div">
+  <h1>Hello World</h1>
+  <p>This is a centered paragraph.</p>
+</div>
+
+
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
