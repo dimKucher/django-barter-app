@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ads.models import AdsItem
+from app_ads.models import AdsItem
 
 
 @admin.register(AdsItem)

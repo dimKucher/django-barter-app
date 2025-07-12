@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-div">
+    <h1>Новое объявление </h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            {{ form.errors }}
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">Название объявления</label>
+            {{ form.title }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">Описание</label>
+            <textarea  id="description" name="description" placeholder="Описание"></textarea>
+        </div>
+           <div class="form-group">
+            <label >Изображение</label>
+            <input type="file"  id="image_url" name="image_url" placeholder="Изображение">
+        </div>
+        <div class="form-group">
+        <label class="form-label" for="category">Категория</label>
+            <select id="category" name="category" class="form-input">
+                <option value="" disabled selected>--- Выберите значение ---</option>
+                {% for category in categories %}
+                <option value="{{ category.0 }}">{{ category.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+        <label class="form-label" for="category">Состояние товара</label>
+            <select id="condition" name="condition" class="form-input">
+                <option value="" disabled selected>--- Выберите значение ---</option>
+                {% for condition in conditions %}
+                <option value="{{ condition.0 }}">{{ condition.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Сохранить</button>
+    </form>
+
+</div>
+{% endblock %}

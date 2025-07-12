@@ -1,0 +1,35 @@
+.centered-messagev{
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(0, -50%);
+    text-align: center;
+}
+.message-list li:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+}
+
+.message-list .success:before {
+    content: "\f058";
+}
+
+.message-list .error:before {
+    content: "\f057";
+}
+
+.message-list .warning:before {
+    content: "\f071";
+}
+
+.message-list .info:before {
+    content: "\f05a";
+}
+.message-list .success {
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+}
+
+.message-list .error {
+    background: linear-gradient(135deg, #F44336, #EF5350);
+}

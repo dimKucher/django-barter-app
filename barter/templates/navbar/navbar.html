@@ -3,16 +3,29 @@
 <div class="navbar">
     <div class="profile">
         <img src="{% static 'img/icon/default.png' %}" alt="Profile Icon">
-        <span class="profile-name">John Doe</span>
+        <span class="profile-name">
+        {% if request.user.is_authenticated %}
+            {{request.user.username}}
+        {% else %}
+            Anon user
+        {% endif %}
+        </span>
     </div>
-    <a class="nav-link" href="#">+ New Ads</a>
-    <a class="nav-link" href="#">My Ads</a>
+    <a class="nav-link" href="{% url 'app_ads:create_ads' %}">+ New Ads</a>
+    <a class="nav-link" href="{% url 'app_ads:list_ads'  %}">My Ads</a>
     <a class="nav-link" href="#">+ Add Proposal</a>
     <a class="nav-link" href="#">My Proposal</a>
 
     {% if request.user.is_authenticated %}
-    <a class="nav-link" href="#">Logout</a>
+    <form class="nav-link" action="{% url 'app_user:logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
     {% else %}
-    <a class="nav-link" href="#">Sign In / Sign Up</a>
+    <p class="nav-link">
+        <a href="{% url 'app_user:login' %}">Sign In</a> /
+        <a href="{% url 'app_user:register' %}">Sign Up</a>
+
+    </p>
     {% endif %}
 </div>
