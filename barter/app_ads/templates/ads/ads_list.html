@@ -1,29 +1,32 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<div class="container">
     <div class="header">
-        <h1>Список товаров</h1>
+        <h1>{{ title }}</h1>
     </div>
 
-    <div class="ads-container">
+    {% include 'pagination/pagination.html' %}
+
+    <div class="products-container">
         {% for item in object_list %}
-        <!-- Карточка товара 1 -->
-        <div class="ads-card">
-            <img src="{{ item.image }}" alt="{{ item.title }}" class="ads-image">
-            <div class="ads-body">
-                <h3 class="ads-title">{{ item.title }}</h3>
-                <div class="ads-meta">
-                    <span><strong>Категория:</strong> {{item.category}}</span>
-                    <span><strong>Состояние:</strong> {{item.status}}</span>
-                </div>
-                <div class="ads-date">{{item.created_at}}</div>
-                <a href="#" class="ads-button">Подробно</a>
+        <div class="product-card">
+            <img src="{{ item.image }}" alt="{{ item.title }}" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">{{ item.title }}</h3>
+                <p class="product-category">{{ item.get_category_display  }}</p>
+                <p class="product-condition">{{ item.get_condition_display  }}</p>
+                <p class="product-date">{{item.created_at}}</p>
+                <p class="product-author">{{item.user.username}}</p>
+                <a class="details-btn" href="{% url 'app_ads:detail' pk=item.pk %}">Подробно
+                </a>
+
             </div>
         </div>
         {% empty %}
-        no
+        <div class="centered-div">
+        <h1>{{ empty_message}}</h1>
+        <p><a href="{% url 'app_ads:create' %}">+ добавить</a></p>
+        </div>
         {% endfor %}
     </div>
-</div>
 {% endblock %}

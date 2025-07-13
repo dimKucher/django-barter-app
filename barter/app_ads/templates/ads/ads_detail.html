@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="header">
+    <h1>{{ title }}</h1>
+</div>
+
+<div class="detail-container">
+  <div class="left-column">
+    <img src="{{ object.image }}" alt="{{ object.title }}">
+  </div>
+
+  <div class="right-column">
+    <h1>{{ object.title }}</h1>
+    <p><strong>Описание:</strong> {{ object.description }}</p>
+    <p><strong>Категория:</strong> {{ object.get_category_display }}</p>
+    <p><strong>Состояние:</strong> {{ object.get_condition_display }}</p>
+    <p><strong>Автор:</strong> {{ object.user.username }}</p>
+
+    <div class="buttons">
+       {% if request.user == object.user %}
+      <a href="{% url 'app_ads:list_user' %}" class="btn back">назад</a>
+      <a href="{% url 'app_ads:update' pk=object.id %}" class="btn edit">Редактировать</a>
+      <a href="{% url 'app_ads:delete' pk=object.id %}" class="btn delete">Удалить</a>
+      {% else %}
+      <a href="{% url 'app_ads:list' %}" class="btn back">назад</a>
+      <a href="#" class="btn chosen">отправить предложение обмена</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-div">
+  <h1>Hello,
+      {% if request.user.is_authenticated %}
+        {{request.user.username}}
+      {% else %}
+        world
+      {% endif %}
+  </h1>
+  <p><a class="btn chosen" href="{% url 'app_ads:list' %}">к списку товаров</a><p>
+</div>
+{% endblock %}

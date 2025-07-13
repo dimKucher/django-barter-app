@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-div">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <img src="{{object.image}}">
+            <label>
+                Вы уверены, что хотите удалить объявление <strong>"{{ object.title }}"</strong>?
+            </label>
+            <label>
+                Это действие нельзя будет отменить.
+            </label>
+        </div>
+        <div class="btn-delete-action">
+            <button type="submit" class="btn delete">Да, удалить</button>
+            <a href="{% url 'app_ads:detail' object.pk %}" class="btn back">Отмена</a>
+        </div>
+
+
+    </form>
+</div>
+{% endblock %}

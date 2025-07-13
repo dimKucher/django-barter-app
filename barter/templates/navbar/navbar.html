@@ -1,31 +1,34 @@
 {% load static %}
 
-<div class="navbar">
-    <div class="profile">
-        <img src="{% static 'img/icon/default.png' %}" alt="Profile Icon">
-        <span class="profile-name">
-        {% if request.user.is_authenticated %}
-            {{request.user.username}}
-        {% else %}
-            Anon user
-        {% endif %}
-        </span>
-    </div>
-    <a class="nav-link" href="{% url 'app_ads:create_ads' %}">+ New Ads</a>
-    <a class="nav-link" href="{% url 'app_ads:list_ads'  %}">My Ads</a>
-    <a class="nav-link" href="#">+ Add Proposal</a>
-    <a class="nav-link" href="#">My Proposal</a>
-
+<div class="profile">
     {% if request.user.is_authenticated %}
-    <form class="nav-link" action="{% url 'app_user:logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-    {% else %}
-    <p class="nav-link">
-        <a href="{% url 'app_user:login' %}">Sign In</a> /
-        <a href="{% url 'app_user:register' %}">Sign Up</a>
-
-    </p>
+    <img src="{% static 'img/icon/default.png' %}" alt="Profile Icon">
     {% endif %}
+    <span class="profile-name">
+    {% if request.user.is_authenticated %}
+        {{request.user.username}}
+    {% else %}
+        user
+    {% endif %}
+    </span>
 </div>
+<a class="nav-link" href="{% url 'app_ads:list' %}">Home</a>
+<hr>
+{% if request.user.is_authenticated %}
+<a class="nav-link" href="{% url 'app_ads:create' %}">+ New Ads</a>
+<a class="nav-link" href="{% url 'app_ads:list_user'  %}">My Ads</a>
+<hr>
+<a class="nav-link" href="#">+ Add Proposal</a>
+<a class="nav-link" href="#">My Proposal</a>
+<hr>
+<form class="nav-link" action="{% url 'app_user:logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+{% else %}
+<p class="nav-link">
+    <a class="sing-button" href="{% url 'app_user:login' %}">Sign In</a> /
+    <a class="sing-button" href="{% url 'app_user:register' %}">Sign Up</a>
+
+</p>
+{% endif %}

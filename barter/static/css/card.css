@@ -1,14 +1,3 @@
-/* Общие стили для контейнера */
-.container {
-    display: block;
-     max-height: 90vh;
-}
-
-.header {
-    display: block;
-    color: #fff;
-    padding: 0.5rem;
-}
 
 /* Сетка карточек */
 .ads-container {

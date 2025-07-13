@@ -1,0 +1,19 @@
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+.pagination a, .pagination span {
+    margin: 0 5px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.pagination .current {
+    font-weight: bold;
+    background-color: #ddd;
+    color: #333;
+    border-radius: 8px;
+}

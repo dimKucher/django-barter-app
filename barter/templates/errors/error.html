@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-div">
+  <h1>⚠️ {{title}}</h1>
+  <p>{{description}}</p>
+  <p>
+    <a class="btn back" href="{% url 'main' %}">на главную старицу</a>
+  </p>
+</div>
+{% endblock %}

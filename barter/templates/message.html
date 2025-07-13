@@ -1,0 +1,11 @@
+{% if messages %}
+    {% for message in messages %}
+    <div class="centered-messagev">
+        <ul class="message-list">
+            <li class="{{ message.tags }}" id="message">{{ message }}
+                <button class="close-button" id="close-button-message">✖</button>
+            </li>
+        </ul>
+    </div>
+    {% endfor %}
+{% endif %}

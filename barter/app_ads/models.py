@@ -80,10 +80,10 @@ class AdsItem(models.Model):
         verbose_name_plural = "объявления"
 
     def __str__(self) -> str:
-        return f'{self.title} (Пользователь: {self.user.username})'
+        return f'{self.title} (Автор объявления: {self.user.username})'
 
     def get_absolute_url(self) -> str:
-        return reverse("ads:detail", kwargs={"pk": self.pk})
+        return reverse("app_ads:detail", kwargs={"pk": self.pk})
 
     @property
     def image(self) -> str:

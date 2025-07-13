@@ -7,17 +7,18 @@
     <title>Title</title>
     <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/navbar.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'css/auth.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'css/card.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/detail.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/list.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/pagination.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
 
-{% include 'navbar/navbar.html' %}
+<div class="container">
 {% include 'message.html' %}
-
-{% block content %}
-
-{% endblock %}
+<div class="sidebar">{% include 'navbar/navbar.html' %}</div>
+<div class="main-content">{% block content %}{% endblock %}</div>
+</div>
 
 <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 </body>
