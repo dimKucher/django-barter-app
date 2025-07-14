@@ -18,12 +18,11 @@
     <p><strong>Автор:</strong> {{ object.user.username }}</p>
 
     <div class="buttons">
+      <a href="javascript:history.back()" class="btn back">назад</a>
        {% if request.user == object.user %}
-      <a href="{% url 'app_ads:list_user' %}" class="btn back">назад</a>
       <a href="{% url 'app_ads:update' pk=object.id %}" class="btn edit">Редактировать</a>
       <a href="{% url 'app_ads:delete' pk=object.id %}" class="btn delete">Удалить</a>
       {% else %}
-      <a href="{% url 'app_ads:list' %}" class="btn back">назад</a>
       <a href="#" class="btn chosen">отправить предложение обмена</a>
       {% endif %}
     </div>

@@ -9,8 +9,6 @@
     margin: 20px;
     max-height: 65vh;
     overflow-y:auto;
-    background-color: #F0EAD6;
-    border-radius: 8px;
 }
 
 /* Стили карточки товара */
@@ -176,7 +174,6 @@
     }
 }
 
-/* Кастомный скроллбар */
 .products-container::-webkit-scrollbar {
     width: 8px;
 }
@@ -190,3 +187,46 @@
     background-color: #4a76a8;
     border-radius: 4px;
 }
+.filter-form {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+.search-input,
+.filter-select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+}
+.search-input {
+    width: 40%;
+}
+.filter-select {
+    width: 15%;
+}
+.filter-btn {
+    padding: 0.5rem 1rem;
+    background-color: #3490dc;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.clear-btn {
+    display: inline-block;
+    padding: 0.5rem 0.8rem;
+    background-color: #e3342f;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    line-height: 2.2rem;
+}
+.clear-btn:hover {
+    background-color: #cc1f1a;
+}
+

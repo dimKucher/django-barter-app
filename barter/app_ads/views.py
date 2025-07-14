@@ -1,18 +1,15 @@
-from typing import Optional
-
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
-from django.http import Http404
-from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views import generic
 
-from app_ads import forms, models
+from app_ads import forms, models, services
 
 
-class AdsCreate(LoginRequiredMixin, CreateView):
+class AdsCreate(LoginRequiredMixin, generic.CreateView):
     """Класс-представление для создания товара."""
 
     template_name = "ads/ads_form.html"
@@ -29,58 +26,64 @@ class AdsCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class AdsList(ListView):
-    """Класс-представление для отображения списка всех товаров."""
+class BaseAdsListView(generic.ListView):
+    """Базовый класс для списка объявлений"""
     model = models.AdsItem
     template_name = "ads/ads_list.html"
     paginate_by = 5
-    extra_context = {
-        "title": "Список всех товаров",
-        "empty_message": "Тут ничего нет 🙁"
-    }
+    is_mine = False
+
+    @staticmethod
+    def get_extra_context():
+        """Возвращает общий контекст для всех страниц списка"""
+        return {
+            "categories": models.AdsItem.CATEGORY_CHOICES,
+            "conditions": models.AdsItem.CONDITION_CHOICES,
+            "empty_message": "Тут ничего нет 🙁"
+        }
+
+    def get_filter_params(self) -> services.AdsFilterParams:
+        """Создает параметры фильтрации на основе запроса"""
+        return services.AdsFilterParams(
+            user=self.request.user,
+            is_mine=self.is_mine,
+            search_query=self.request.GET.get("search", ""),
+            category_query=self.request.GET.get("category", ""),
+            condition_query=self.request.GET.get("condition", ""),
+            order_by="-created_at"
+        )
 
     def get_queryset(self) -> QuerySet[models.AdsItem]:
-        """Функция возвращает список товаров из БД."""
-        try:
-            if self.request.user.is_authenticated:
-                object_list = (models.AdsItem.objects
-                               .exclude(user=self.request.user)
-                               .order_by("-created_at"))
-            else:
-                object_list = (models.AdsItem.objects
-                               .order_by("-created_at"))
-            return object_list
-        except ObjectDoesNotExist:
-            raise Http404("Объявлений нет")
+        """Общий метод для получения отфильтрованного списка"""
+        filter_params = self.get_filter_params()
+        ads_service = services.AdsFilterService(filter_params)
+        return ads_service.get_filtered_ads()
+
+    def get_context_data(self, **kwargs):
+        """Добавляет общий контекст"""
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_extra_context())
+        return context
 
 
-class AdsUserList(LoginRequiredMixin, AdsList):
-    """Класс-представление для отображения списка товаров пользователя."""
-
-    model = models.AdsItem
-    template_name = "ads/ads_list.html"
-    paginate_by = 5
-    extra_context = {
-        "title": "Список ваших товаров",
-        "empty_message": "Тут ничего нет 🙁"
-    }
-
-    def get_queryset(self) -> QuerySet[models.AdsItem]:
-        """Функция возвращает список товаров из БД."""
-        try:
-            return (models.AdsItem.objects
-                    .filter(user=self.request.user)
-                    .order_by("-created_at"))
-        except ObjectDoesNotExist:
-            raise Http404("Объявлений нет")
+class AdsList(BaseAdsListView):
+    """Список всех товаров (кроме своих)"""
+    extra_context = {"title": "Список всех товаров", }
+    is_mine = False
 
 
-class AdsDetail(DetailView):
+class AdsUserList(LoginRequiredMixin, BaseAdsListView):
+    """Список товаров пользователя"""
+    extra_context = {"title": "Список ваших товаров", }
+    is_mine = True
+
+
+class AdsDetail(generic.DetailView):
     model = models.AdsItem
     template_name = "ads/ads_detail.html"
 
 
-class AdsUpdate(UpdateView):
+class AdsUpdate(generic.UpdateView):
     """Класс для редактирования объявления."""
     model = models.AdsItem
     form_class = forms.AdsItemForm
@@ -111,7 +114,7 @@ class AdsUpdate(UpdateView):
         return context
 
 
-class AdsDelete(LoginRequiredMixin, DeleteView):
+class AdsDelete(LoginRequiredMixin, generic.DeleteView):
     model = models.AdsItem
     template_name = 'ads/ads_confirm_delete.html'
     success_url = reverse_lazy('app_ads:list_user')

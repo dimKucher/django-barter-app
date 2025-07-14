@@ -1,0 +1,26 @@
+<form method="get" class="filter-form">
+    <input type="text" name="search" placeholder="Поиск..." value="{{ request.GET.search }}" class="search-input">
+    <a href="{% url request.resolver_match.view_name %}" class="clear-btn" title="Сбросить фильтры">очистить</a>
+    <select name="category" class="filter-select">
+        <option value=""  {% if not request.GET.category %}selected{% endif %}>Все категории
+        </option>
+        {% for category_value, label in categories %}
+        <option value="{{ category_value }}" {% if request.GET.category == category_value %}selected{% endif %}>
+            {{ label }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <select name="condition" class="filter-select">
+        <option value=""  {% if not request.GET.condition %}selected{% endif %}>Все состояния
+        </option>
+        {% for category_value, label in conditions %}
+        <option value="{{ category_value }}" {% if request.GET.condition == category_value %}selected{% endif %}>
+            {{ label }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="filter-btn">Применить</button>
+
+</form>
