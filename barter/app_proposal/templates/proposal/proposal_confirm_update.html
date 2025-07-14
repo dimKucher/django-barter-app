@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-div">
+    <p>Подтвердите изменение статуса на <strong>{{ view.new_status }}</strong> для "{{ object.item }}"</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn edit">Подтвердить</button>
+        <a href="{% url 'app_proposal:detail' pk=object.pk %}" class="btn back">Отмена</a>
+    </form>
+</div>
+{% endblock %}
