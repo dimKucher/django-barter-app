@@ -10,10 +10,10 @@
 <table class="proposal-table">
     <thead>
     <tr>
-        <th>Изображение</th>
+        <th>img</th>
         <th>Товар</th>
-        {% if   is_sending %}<th>Отправитель</th>{% endif %}
-        {% if  is_receiving  %}<th>Получатель</th>{% endif %}
+        {% if is_sending %}<th>Отправитель</th>{% endif %}
+        {% if is_receiving %}<th>Получатель</th>{% endif %}
         <th>Статус</th>
         <th></th>
     </tr>
@@ -21,25 +21,38 @@
     <tbody>
     {% for propose in object_list %}
     <tr>
-        <td><img src="{{ propose.item.image }}" alt="{{ propose.item }}" class="proposal-img"></td>
-        <td>{{ propose.item }}</td>
+        <td>
+            <a href="{% url 'app_ads:detail' pk=propose.item.pk %}">
+                <img src="{{ propose.item.image }}" alt="{{ propose.item }}" class="proposal-img">
+            </a>
+        </td>
+        <td>{{ propose.item }}
+        </td>
 
         {% if propose.ad_sender != request.user %}
-        <td>{{ propose.ad_sender.username }}</td>
+        <td>{{ propose.ad_sender.username }}
+        </td>
         {% endif %}
 
         {% if propose.ad_receiver != request.user %}
-        <td>{{ propose.ad_receiver.username }}</td>
+        <td>{{ propose.ad_receiver.username }}
+        </td>
         {% endif %}
 
         <td>
-            <span class="status-label {{ propose.status|lower }}">{{ propose.get_status_display }}</span>
+            <span class="status-label {{ propose.status|lower }}">
+                {{ propose.get_status_display }}
+            </span>
         </td>
-        <td><a href="{% url 'app_proposal:detail' pk=propose.id %}" class="details-btn">подробно</a></td>
+        <td>
+            <a href="{% url 'app_proposal:detail' pk=propose.id %}" class="details-btn">подробно
+            </a>
+        </td>
     </tr>
     {% empty %}
     <tr>
-        <td colspan="5" style="text-align:center;">Нет предложений</td>
+        <td colspan="5" style="text-align:center;">Нет предложений
+        </td>
     </tr>
     {% endfor %}
     </tbody>

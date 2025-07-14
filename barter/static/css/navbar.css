@@ -43,3 +43,15 @@
 .sing-button {
     color: blue;
 }
+.nav-link.incoming {
+    position: relative;
+}
+.nav-link.incoming  span {
+    background-color: red;
+    padding: 4px 7px;
+    border-radius: 50%;
+    position: absolute;
+    font-size: 8px;
+    top: 2px;
+    right: -25px;
+}

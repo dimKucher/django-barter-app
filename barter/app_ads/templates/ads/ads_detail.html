@@ -23,8 +23,13 @@
       <a href="{% url 'app_ads:update' pk=object.id %}" class="btn edit">Редактировать</a>
       <a href="{% url 'app_ads:delete' pk=object.id %}" class="btn delete">Удалить</a>
       {% else %}
+      {% if request.user.is_authenticated  %}
       <a href="{% url 'app_proposal:request' pk=object.id %}" class="btn chosen">отправить предложение обмена</a>
+      {% else %}
+      <a href="{% url 'app_user:login' %}?next={{ request.path }}" class="btn primary">войдите, чтобы отправить предложение</a>
       {% endif %}
+      {% endif %}
+
     </div>
   </div>
 </div>

@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # my app
+    # custom app
     "app_user.apps.AppUserConfig",
     "app_ads.apps.AppAdsConfig",
     "app_proposal.apps.AppProposalConfig",
@@ -54,6 +54,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # custom
+                "app_proposal.context_processors.get_proposal_counter",
             ],
         },
     },

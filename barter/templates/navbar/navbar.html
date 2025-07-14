@@ -20,7 +20,9 @@
 <a class="nav-link" href="{% url 'app_ads:list_user'  %}">мои объявления </a>
 <hr>
 <p><u><strong>Запросы на обмен:</strong></u></p>
-<a class="nav-link" href="{% url 'app_proposal:receiving_list' %}">входящие запросы </a>
+<a class="nav-link incoming" href="{% url 'app_proposal:receiving_list' %}">входящие запросы
+    {% if counter %}<span>{{counter}}</span>{% endif %}
+</a>
 <a class="nav-link" href="{% url 'app_proposal:sending_list' %}"> мои запросы </a>
 <hr>
 <form class="nav-link" action="{% url 'app_user:logout' %}" method="post">

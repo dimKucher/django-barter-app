@@ -12,11 +12,13 @@
     <link href="{% static 'css/list.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/pagination.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/proposal.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/message.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
 
 <div class="container">
 {% include 'message.html' %}
+{% include 'errors/message.html' %}
 <div class="sidebar">{% include 'navbar/navbar.html' %}</div>
 <div class="main-content">{% block content %}{% endblock %}</div>
 </div>

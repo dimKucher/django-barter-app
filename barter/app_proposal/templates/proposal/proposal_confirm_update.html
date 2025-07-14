@@ -1,8 +1,12 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<div class="centered-div">
-    <p>Подтвердите изменение статуса на <strong>{{ view.new_status }}</strong> для "{{ object.item }}"</p>
+<div class="confirm-container">
+    <img src="{{object.item.image}}"/>
+    <p>{{object.item.title}} </p>
+    <p>Подтвердите изменение статуса на
+        <span class="status-label {{view.new_status|lower}}">{{ view.new_status }}</span>
+    </p>
     <form method="post">
         {% csrf_token %}
         <button type="submit" class="btn edit">Подтвердить</button>

@@ -15,7 +15,7 @@ class ExchangeProposal(models.Model):
         (STATUS_ACCEPTED, 'принята'),
         (STATUS_REJECTED, 'отклонена'),
     ]
-    item = models.OneToOneField(
+    item = models.ForeignKey(
         AdsItem,
         on_delete=models.CASCADE,
         related_name='item_for_exchange',
@@ -64,12 +64,14 @@ class ExchangeProposal(models.Model):
     def __str__(self):
         return f"Предложение {self.pk} [{self.get_status_display()}]"
 
-    # def clean(self):
-    #     # if self.ad_sender == self.ad_receiver:
-    #     #     raise ValidationError("Нельзя создать предложение на тот же товар")
-    #     if hasattr(self, 'ad_sender') and hasattr(self, 'ad_receiver'):
-    #         if ExchangeProposal.objects.filter(
-    #                 ad_sender=self.ad_receiver,
-    #                 ad_receiver=self.ad_sender
-    #         ).exists():
-    #             raise ValidationError("Обратное предложение уже существует")
+    def clean(self):
+        if self.ad_sender == self.ad_receiver:
+            raise ValidationError("Нельзя создать предложение на тот же товар")
+
+        if hasattr(self, 'ad_sender') and hasattr(self, 'ad_receiver'):
+            if ExchangeProposal.objects.filter(
+                    item=self.item,
+                    ad_sender=self.ad_receiver,
+                    ad_receiver=self.ad_sender
+            ).exists():
+                raise ValidationError("Обратное предложение уже существует")
