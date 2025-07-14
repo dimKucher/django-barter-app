@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="header">
+    <h1>{{ title }}</h1>
+</div>
+
+{% include 'pagination/pagination.html' %}
+
+<table class="proposal-table">
+    <thead>
+    <tr>
+        <th>img</th>
+        <th>Товар</th>
+        {% if is_sending %}<th>Отправитель</th>{% endif %}
+        {% if is_receiving %}<th>Получатель</th>{% endif %}
+        <th>Статус</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for propose in object_list %}
+    <tr>
+        <td>
+            <a href="{% url 'app_ads:detail' pk=propose.item.pk %}">
+                <img src="{{ propose.item.image }}" alt="{{ propose.item }}" class="proposal-img">
+            </a>
+        </td>
+        <td>{{ propose.item }}
+        </td>
+
+        {% if propose.ad_sender != request.user %}
+        <td>{{ propose.ad_sender.username }}
+        </td>
+        {% endif %}
+
+        {% if propose.ad_receiver != request.user %}
+        <td>{{ propose.ad_receiver.username }}
+        </td>
+        {% endif %}
+
+        <td>
+            <span class="status-label {{ propose.status|lower }}">
+                {{ propose.get_status_display }}
+            </span>
+        </td>
+        <td>
+            <a href="{% url 'app_proposal:detail' pk=propose.id %}" class="details-btn">подробно
+            </a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5" style="text-align:center;">Нет предложений
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

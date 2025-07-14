@@ -12,14 +12,18 @@
     {% endif %}
     </span>
 </div>
-<a class="nav-link" href="{% url 'app_ads:list' %}">Home</a>
+<a class="nav-link" href="{% url 'app_ads:list' %}">Главная страница</a>
 <hr>
+<p><u><strong>Объявления:</strong></u></p>
 {% if request.user.is_authenticated %}
-<a class="nav-link" href="{% url 'app_ads:create' %}">+ New Ads</a>
-<a class="nav-link" href="{% url 'app_ads:list_user'  %}">My Ads</a>
+<a class="nav-link" href="{% url 'app_ads:create' %}">+ новое объявление </a>
+<a class="nav-link" href="{% url 'app_ads:list_user'  %}">мои объявления </a>
 <hr>
-<a class="nav-link" href="#">+ Add Proposal</a>
-<a class="nav-link" href="#">My Proposal</a>
+<p><u><strong>Запросы на обмен:</strong></u></p>
+<a class="nav-link incoming" href="{% url 'app_proposal:receiving_list' %}">входящие запросы
+    {% if counter %}<span>{{counter}}</span>{% endif %}
+</a>
+<a class="nav-link" href="{% url 'app_proposal:sending_list' %}"> мои запросы </a>
 <hr>
 <form class="nav-link" action="{% url 'app_user:logout' %}" method="post">
     {% csrf_token %}

@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="confirm-container">
+    <img src="{{object.item.image}}"/>
+    <p>{{object.item.title}} </p>
+    <p>Подтвердите изменение статуса на
+        <span class="status-label {{view.new_status|lower}}">{{ view.new_status }}</span>
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn edit">Подтвердить</button>
+        <a href="{% url 'app_proposal:detail' pk=object.pk %}" class="btn back">Отмена</a>
+    </form>
+</div>
+{% endblock %}

@@ -26,7 +26,7 @@ class AdsFilterService:
 
     def __init__(self, filter_params: AdsFilterParams):
         self.params = filter_params
-        self.base_queryset = models.AdsItem.objects.order_by(self.params.order_by)
+        self.base_queryset = models.AdsItem.objects.filter(is_given=False).order_by(self.params.order_by)
 
     def _apply_user_filter(self):
         """Исключает объявления текущего пользователя"""

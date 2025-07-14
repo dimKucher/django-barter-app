@@ -1,0 +1,15 @@
+{% if form.errors  %}
+{% for field, errors in form.errors.items %}
+{% for error in errors %}
+<div class="centered-message">
+    <ul class="message-list">
+        <li class="error" id="error_message">{{ error }}
+            <button class="close-button" id="close-button-error">✖
+            </button>
+        </li>
+    </ul>
+</div>
+{% endfor %}
+{% endfor %}
+{% endif %}
+

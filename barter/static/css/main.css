@@ -27,21 +27,34 @@ html, body {
   padding: 20px;
 }
 
-.centered-div {
+.centered-div,
+.centered-main-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
+.centered-main-container {
+  text-align: start;
+}
 
-.centered-div h1 {
+.centered-div h1,
+.centered-main-container h1{
     color: #F0EAD6;
     font-size: 2rem;
     text-transform: uppercase;
     font-weight: 600;
 }
-
+.centered-main-container a {
+   text-decoration: none;
+}
+.centered-main-container h1:after {
+    content: '😀'
+}
+.centered-main-container a:before {
+    content: '◻️ '
+}
 .centered-div p, a {
     color: #fff;
     font-size: 1.2rem;

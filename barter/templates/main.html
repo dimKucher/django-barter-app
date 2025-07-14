@@ -1,14 +1,25 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<div class="centered-div">
-  <h1>Hello,
-      {% if request.user.is_authenticated %}
+<div class="centered-main-container">
+    <h1>Hello,
+        {% if request.user.is_authenticated %}
         {{request.user.username}}
-      {% else %}
+        {% else %}
         world
-      {% endif %}
-  </h1>
-  <p><a class="btn chosen" href="{% url 'app_ads:list' %}">к списку товаров</a><p>
+        {% endif %}
+    </h1>
+
+
+    <p><a href="{% url 'app_ads:list' %}">к списку всех товаров</a>
+    <p>
+    {% if request.user.is_authenticated %}
+    <p><a href="{% url 'app_ads:list_user' %}">к списку моих товаров</a>
+    <p>
+    <p><a href="{% url 'app_proposal:receiving_list' %}">входящие предложения на обмен</a>
+    <p>
+    <p><a href="{% url 'app_proposal:sending_list' %}">мои предложения на обмен</a>
+    <p>
+    {% endif %}
 </div>
 {% endblock %}

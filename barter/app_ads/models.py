@@ -62,6 +62,10 @@ class AdsItem(models.Model):
         default='USED',
         verbose_name='Состояние'
     )
+    is_given = models.BooleanField(
+        default=False,
+        verbose_name='Отдан'
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания'
