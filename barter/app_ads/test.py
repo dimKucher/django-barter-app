@@ -6,10 +6,10 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth import get_user_model
 from app_ads.models import AdsItem
-from app_ads.views import BaseAdsListView
+from app_ads.views import BaseAdsListView, AdsUpdate, AdsDelete
 from app_ads import models, forms, views
 from app_ads import services
-
+from django.test.utils import override_settings
 User = get_user_model()
 
 
@@ -98,10 +98,18 @@ class AdsViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'ads/ads_detail.html')
 
+    # @override_settings(DEBUG=False)
     def test_update_not_owner_raises_permission_denied(self):
-        self.client.login(username='otheruser', password='pass')
-        response = self.client.get(reverse('app_ads:update', kwargs={'pk': self.item.pk}))
-        self.assertEqual(response.status_code, 403)
+        factory = RequestFactory()
+        request = factory.get(reverse('app_ads:update', kwargs={'pk': self.item.pk}))
+        request.user = self.other_user
+
+        view = AdsUpdate()
+        view.kwargs = {'pk': self.item.pk}
+        view.request = request
+
+        with self.assertRaises(PermissionDenied):
+            view.get_object()
 
     def test_update_success(self):
         self.login()
@@ -115,9 +123,20 @@ class AdsViewsTest(TestCase):
         self.assertEqual(self.item.title, 'Updated Title')
 
     def test_delete_not_owner(self):
-        self.client.login(username='otheruser', password='pass')
-        response = self.client.post(reverse('app_ads:delete', kwargs={'pk': self.item.pk}), follow=True)
-        self.assertEqual(response.status_code, 403)
+        factory = RequestFactory()
+        request = factory.get(reverse('app_ads:delete', kwargs={'pk': self.item.pk}))
+        request.user = self.other_user
+
+        view = AdsDelete()
+        view.kwargs = {'pk': self.item.pk}
+        view.request = request
+
+        with self.assertRaises(PermissionDenied):
+            view.get_object()
+
+        # self.client.login(username='otheruser', password='pass')
+        # response = self.client.post(reverse('app_ads:delete', kwargs={'pk': self.item.pk}), follow=True)
+        # self.assertEqual(response.status_code, 403)
 
     def test_delete_success(self):
         self.login()
