@@ -1,13 +1,11 @@
 {% extends 'index.html' %}
 
+
 {% block content %}
-    <div class="header">
-        <h1>{{ title }}
-        </h1>
-    </div>
+<div class="header"><h1>{{ title }} </h1></div>
 
+    {% include 'pagination/pagination.html' %}
     {% include 'ads/filter.html' %}
-
 
     <div class="products-container">
         {% for item in object_list %}
@@ -31,6 +29,6 @@
         {% endfor %}
     </div>
 
-    {% include 'pagination/pagination.html' %}
+
 
 {% endblock %}

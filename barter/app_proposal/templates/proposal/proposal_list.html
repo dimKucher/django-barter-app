@@ -6,14 +6,15 @@
 </div>
 
 {% include 'pagination/pagination.html' %}
+{% include 'proposal/filter.html' %}
 
 <table class="proposal-table">
     <thead>
     <tr>
         <th>img</th>
         <th>Товар</th>
-        {% if is_sending %}<th>Отправитель</th>{% endif %}
-        {% if is_receiving %}<th>Получатель</th>{% endif %}
+        <th>Отправитель</th>
+        <th>Получатель</th>
         <th>Статус</th>
         <th></th>
     </tr>
@@ -29,15 +30,11 @@
         <td>{{ propose.item }}
         </td>
 
-        {% if propose.ad_sender != request.user %}
         <td>{{ propose.ad_sender.username }}
         </td>
-        {% endif %}
 
-        {% if propose.ad_receiver != request.user %}
         <td>{{ propose.ad_receiver.username }}
         </td>
-        {% endif %}
 
         <td>
             <span class="status-label {{ propose.status|lower }}">

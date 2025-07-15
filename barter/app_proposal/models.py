@@ -44,6 +44,11 @@ class ExchangeProposal(models.Model):
         default='PENDING',
         verbose_name='Статус'
     )
+    status_message = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name='Сообщение к статусу'
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания'

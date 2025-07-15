@@ -92,14 +92,11 @@ class AdsItem(models.Model):
     @property
     def image(self) -> str:
         """
-        Метод возвращает URL-изображения категории.
+            Метод возвращает URL-изображения категории.
 
-        Возвращает URL-изображения
-        или дефолтное изображение.
-        """
-        return os.path.join(settings.MEDIA_URL, self.image_url.url)
-
-    # def save(self, *args, **kwargs) -> None:
-    #     if not self.slug:
-    #         self.slug = slugify_for_cyrillic_text(self.title)
-    #     return super().save(*args, **kwargs)
+            Возвращает URL-изображения
+            или дефолтное изображение.
+            """
+        if self.image_url and hasattr(self.image_url, 'url'):
+            return self.image_url.url
+        return settings.STATIC_URL + "img/default.png"
