@@ -16,10 +16,9 @@
     {% if request.user.is_authenticated %}
     <p><a href="{% url 'app_ads:list_user' %}">к списку моих товаров</a>
     <p>
-    <p><a href="{% url 'app_proposal:receiving_list' %}">входящие предложения на обмен</a>
+    <p><a href="{% url 'app_proposal:list' %}">список предложения на обмен</a>
     <p>
-    <p><a href="{% url 'app_proposal:sending_list' %}">мои предложения на обмен</a>
-    <p>
+
     {% endif %}
 </div>
 {% endblock %}

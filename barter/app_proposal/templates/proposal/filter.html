@@ -1,0 +1,31 @@
+<form method="get" class="filter-form">
+
+
+    <select name="sender" class="filter-select">
+        <option value="" {% if not request.GET.sender %} selected {% endif %}>Все отправители
+        </option>
+         <option style="background-color:orange"
+                 {% if request.GET.sender == request.user.username %} selected {% endif %}
+                 value="{{request.user.username}}">мои запросы
+         </option>
+        {% for sender_id, name in sender_list %}
+        <option value="{{ name }}" {% if request.GET.sender == name %} selected {% endif %}>
+            {{ name }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <select name="status" class="filter-select">
+        <option value="" {% if not request.GET.status %}selected{% endif %}>Все статусы
+        </option>
+        {% for status_value, label in status_list %}
+        <option value="{{ status_value }}" {% if request.GET.status == status_value %}selected{% endif %}>
+            {{ label }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="filter-btn">Применить</button>
+    <a href="{% url request.resolver_match.view_name %}" class="clear-btn" title="Сбросить фильтры">очистить</a>
+
+</form>

@@ -32,6 +32,7 @@ class ExchangeProposal(models.Model):
         on_delete=models.CASCADE,
         related_name='receive_proposals',
         verbose_name='Получатель'
+
     )
     comment = models.TextField(
         blank=True,
@@ -43,6 +44,11 @@ class ExchangeProposal(models.Model):
         choices=STATUS_CHOICES,
         default='PENDING',
         verbose_name='Статус'
+    )
+    status_message = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name='Сообщение к статусу'
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -65,6 +71,9 @@ class ExchangeProposal(models.Model):
         return f"Предложение {self.pk} [{self.get_status_display()}]"
 
     def clean(self):
+        if not self.ad_sender_id or not self.ad_receiver_id:
+            return
+
         if self.ad_sender == self.ad_receiver:
             raise ValidationError("Нельзя создать предложение на тот же товар")
 

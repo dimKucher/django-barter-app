@@ -6,28 +6,32 @@
 </div>
 
 <div class="detail-container">
-  <div class="left-column">
-    <img src="{{ object.item.image }}" alt="{{ object.title }}">
-  </div>
+    <div class="left-column">
+        <img src="{{ object.item.image }}" alt="{{ object.title }}">
+    </div>
 
-  <div class="right-column proposal">
-    <div class="info">
-      <h1>{{ object.title }}</h1>
-      <p><strong>комментарий:</strong> {{ object.comment }}</p>
-      <p><strong>от кого:</strong> {{ object.ad_sender }}</p>
-      <p><strong>кому:</strong> {{ object.ad_receiver }}</p>
-      <p><strong>статус:</strong>
-        <span class="status-label {{ object.status|lower }}">{{ object.get_status_display }}</span>
-      </p>
+    <div class="right-column proposal">
+        <div class="info">
+            <h1>{{ object.item.title }}</h1>
+            <p><strong>комментарий:</strong> {{ object.comment }}</p>
+            <p><strong>от кого:</strong> {{ object.ad_sender }}</p>
+            <p><strong>кому:</strong> {{ object.ad_receiver }}</p>
+            <p><strong>статус:</strong>
+                <span class="status-label {{ object.status|lower }}">{{ object.get_status_display }}</span>
+            </p>
+            <p>
+              <strong>сообщение:</strong>
+                <span>{{ object.status_message }}</span>
+            </p>
+        </div>
+        <div class="buttons">
+            <a href="{% url 'app_proposal:list'%}" class="btn back">назад</a>
+            {% if request.user == object.ad_receiver and object.status == 'PENDING' %}
+            <a href="{% url 'app_proposal:accept' pk=object.pk %}" class="btn edit">Одобрить</a>
+            <a href="{% url 'app_proposal:reject' pk=object.pk %}" class="btn delete">Отклонить</a>
+            {% endif %}
+        </div>
     </div>
-    <div class="buttons">
-      <a href="{% url 'app_proposal:receiving_list'%}" class="btn back">назад</a>
-      {% if request.user == object.ad_receiver and object.status == 'PENDING' %}
-      <a href="{% url 'app_proposal:accept' pk=object.pk %}" class="btn edit">Одобрить</a>
-      <a href="{% url 'app_proposal:reject' pk=object.pk %}" class="btn delete">Отклонить</a>
-      {% endif %}
-    </div>
-  </div>
 </div>
 
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
@@ -23,6 +23,7 @@ class AdsCreate(LoginRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        messages.add_message(self.request, messages.SUCCESS, 'Объявление создано')
         return super().form_valid(form)
 
 
@@ -83,11 +84,12 @@ class AdsDetail(generic.DetailView):
     template_name = "ads/ads_detail.html"
 
 
-class AdsUpdate(generic.UpdateView):
+class AdsUpdate(LoginRequiredMixin, generic.UpdateView):
     """Класс для редактирования объявления."""
     model = models.AdsItem
     form_class = forms.AdsItemForm
     template_name = 'ads/ads_form.html'
+    # permission_required = 'app_ads.change_adsitem'
 
     extra_context = {
         "title": "Редактирование объявления",
@@ -105,6 +107,11 @@ class AdsUpdate(generic.UpdateView):
     def form_valid(self, form):
         """Дополнительная обработка при успешной валидации формы."""
         form.instance.user = self.request.user
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            'Объявление успешно обновлено'
+        )
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -115,22 +122,24 @@ class AdsUpdate(generic.UpdateView):
 
 
 class AdsDelete(LoginRequiredMixin, generic.DeleteView):
+    """Класс для удаления объявления."""
     model = models.AdsItem
     template_name = 'ads/ads_confirm_delete.html'
     success_url = reverse_lazy('app_ads:list_user')
+    permission_denied_message = "Вы не можете удалить это объявление"
 
     def get_object(self, queryset=None):
         """Получает объект и проверяет права доступа"""
         obj = get_object_or_404(models.AdsItem, pk=self.kwargs.get('pk'))
         if obj.user != self.request.user:
+            # messages.add_message(self.request, messages.ERROR, self.permission_denied_message)
             raise PermissionDenied("Вы не можете удалить это объявление")
         return obj
 
     def delete(self, request, *args, **kwargs):
-        """Добавляет сообщение об успешном удалении"""
-        response = super().delete(request, *args, **kwargs)
-        messages.success(request, 'Объявление успешно удалено')
-        return response
+        self.object = self.get_object()
+        messages.add_message(self.request, messages.SUCCESS, 'Объявление успешно удалено')
+        return super().delete(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         """Добавляем дополнительные данные в контекст"""
