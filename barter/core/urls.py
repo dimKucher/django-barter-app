@@ -16,3 +16,7 @@ urlpatterns = [
     path("ads/", include(("app_ads.urls", "ads"), namespace="app_ads")),
     path("proposal/", include(("app_proposal.urls", "proposal"), namespace="app_proposal")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+    urlpatterns += static(settings.MEDIA_URL,  document_root=settings.MEDIA_ROOT)

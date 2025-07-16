@@ -1,5 +1,5 @@
-{% if is_paginated %}
-<div class="pagination">
+
+<div class="pagination" {% if not is_paginated %} style="opacity:0" {% endif %}>
     {% if page_obj.has_previous %}
         <a href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&lt;</a>
     {% endif %}
@@ -16,4 +16,3 @@
         <a href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&gt;</a>
     {% endif %}
 </div>
-{% endif %}
