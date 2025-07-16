@@ -98,7 +98,6 @@ class AdsViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'ads/ads_detail.html')
 
-    # @override_settings(DEBUG=False)
     def test_update_not_owner_raises_permission_denied(self):
         factory = RequestFactory()
         request = factory.get(reverse('app_ads:update', kwargs={'pk': self.item.pk}))
@@ -133,10 +132,6 @@ class AdsViewsTest(TestCase):
 
         with self.assertRaises(PermissionDenied):
             view.get_object()
-
-        # self.client.login(username='otheruser', password='pass')
-        # response = self.client.post(reverse('app_ads:delete', kwargs={'pk': self.item.pk}), follow=True)
-        # self.assertEqual(response.status_code, 403)
 
     def test_delete_success(self):
         self.login()

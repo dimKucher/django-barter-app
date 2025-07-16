@@ -84,23 +84,18 @@ class AdsDetail(generic.DetailView):
     template_name = "ads/ads_detail.html"
 
 
-class AdsUpdate(LoginRequiredMixin,UserPassesTestMixin,  PermissionRequiredMixin, generic.UpdateView):
+class AdsUpdate(LoginRequiredMixin, generic.UpdateView):
     """Класс для редактирования объявления."""
     model = models.AdsItem
     form_class = forms.AdsItemForm
     template_name = 'ads/ads_form.html'
-    permission_required = 'app_ads.change_adsitem'
+    # permission_required = 'app_ads.change_adsitem'
 
     extra_context = {
         "title": "Редактирование объявления",
         "categories": models.AdsItem.CATEGORY_CHOICES,
         "conditions": models.AdsItem.CONDITION_CHOICES
     }
-    def test_func(self) -> bool:
-        """Функция проверяет провал на удаления."""
-        user = self.request.user
-        item = self.get_object()
-        return True if user == item.user else False
 
     def get_object(self, queryset=None):
         """Получает объект и проверяет права доступа."""
@@ -126,19 +121,12 @@ class AdsUpdate(LoginRequiredMixin,UserPassesTestMixin,  PermissionRequiredMixin
         return context
 
 
-class AdsDelete(LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin, generic.DeleteView):
+class AdsDelete(LoginRequiredMixin, generic.DeleteView):
     """Класс для удаления объявления."""
     model = models.AdsItem
     template_name = 'ads/ads_confirm_delete.html'
     success_url = reverse_lazy('app_ads:list_user')
     permission_denied_message = "Вы не можете удалить это объявление"
-    permission_required = 'app_ads.delete_adsitem'
-
-    def test_func(self) -> bool:
-        """Функция проверяет провал на удаления."""
-        user = self.request.user
-        item = self.get_object()
-        return True if user == item.user else False
 
     def get_object(self, queryset=None):
         """Получает объект и проверяет права доступа"""

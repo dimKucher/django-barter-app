@@ -50,7 +50,7 @@ class ProposalCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = forms.ExchangeProposalForm
     models = ExchangeProposal
     secondary_model = AdsItem
-    success_url = reverse_lazy('app_proposal:sending_list')
+    success_url = reverse_lazy('app_proposal:list')
 
     def get_object(self, queryset=None):
         """Получает объект и проверяет права доступа."""
@@ -67,8 +67,8 @@ class ProposalCreateView(LoginRequiredMixin, generic.CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.as_sender = self.request.user
-        form.instance.status = models.ExchangeProposal.STATUS_CHOICES[0][0]
+        form.instance.ad_sender = self.request.user
+        form.instance.status = models.ExchangeProposal.STATUS_PENDING
         messages.add_message(
             self.request,
             messages.SUCCESS,
