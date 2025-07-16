@@ -45,7 +45,7 @@ class AdsItem(models.Model):
         verbose_name='Описание'
     )
     image_url = models.ImageField(
-        upload_to='media/items/',
+        upload_to='items/',
         blank=True,
         null=True,
         verbose_name='Изображение'
