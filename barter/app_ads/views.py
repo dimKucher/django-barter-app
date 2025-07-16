@@ -89,7 +89,7 @@ class AdsUpdate(LoginRequiredMixin, generic.UpdateView):
     model = models.AdsItem
     form_class = forms.AdsItemForm
     template_name = 'ads/ads_form.html'
-    # permission_required = 'app_ads.change_adsitem'
+
 
     extra_context = {
         "title": "Редактирование объявления",
@@ -132,7 +132,6 @@ class AdsDelete(LoginRequiredMixin, generic.DeleteView):
         """Получает объект и проверяет права доступа"""
         obj = get_object_or_404(models.AdsItem, pk=self.kwargs.get('pk'))
         if obj.user != self.request.user:
-            # messages.add_message(self.request, messages.ERROR, self.permission_denied_message)
             raise PermissionDenied("Вы не можете удалить это объявление")
         return obj
 
